@@ -15,8 +15,8 @@ public enum ImageDecomposing {
 
     public Bitmap[][] parse(Bitmap image, int countSegmentsOnHeight, int countSegmentOnWidth) {
         Bitmap[][] decomposition = new Bitmap[countSegmentOnWidth][countSegmentsOnHeight];
-        int widthOfSegment = image.getWidth();
-        int heightOfSegment = image.getHeight();
+        int widthOfSegment = image.getWidth() / countSegmentOnWidth;
+        int heightOfSegment = image.getHeight() / countSegmentsOnHeight;
 
         for (int i = 0; i < decomposition.length; i++) {
             for (int j = 0; j < decomposition[0].length; j++) {
@@ -28,7 +28,7 @@ public enum ImageDecomposing {
     }
 
     private Bitmap generateImage(Bitmap src, int i, int j, int width, int height) {
-        Bitmap res = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        Bitmap res = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
         for (int x = 0; x < res.getWidth(); x++) {
             for (int y = 0; y < res.getHeight(); y++) {
                 res.setPixel(x, y, src.getPixel(i*width + x, j*height + y));
