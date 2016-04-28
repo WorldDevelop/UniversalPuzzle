@@ -11,6 +11,16 @@
         android:src="@drawable/main_background"
         android:scaleType="centerCrop"/>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Universal Puzzle"
+        android:textStyle="bold"
+        android:textSize="60dp"
+        android:fontFamily="cursive"
+        android:layout_centerHorizontal="true"
+        android:textColor="@android:color/white"/>
+
     <Button
         android:layout_width="150dp"
         android:layout_height="100dp"
