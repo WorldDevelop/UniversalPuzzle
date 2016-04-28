@@ -59,4 +59,12 @@ public class Puzzle extends ImageView {
     public static void setCountPuzzleOnPlace(int countPuzzleOnPlace) {
         Puzzle.countPuzzleOnPlace = countPuzzleOnPlace;
     }
+
+    public boolean isOnPlace() {
+        return Math.abs(getX() - realX) < 10 && Math.abs(getY() - realY) < 10;
+    }
+
+    public static boolean isEnd() {
+        return puzzleCount == countPuzzleOnPlace;
+    }
 }

@@ -46,22 +46,25 @@ public class PuzzleOnTouchListener implements View.OnTouchListener {
                 v.setY(Y);
                 break;
             case MotionEvent.ACTION_UP:
-                if (Math.abs(puzzle.getX() - puzzle.getRealX()) < 10 &&
-                        Math.abs(puzzle.getY() - puzzle.getRealY()) < 10) {
-                    v.setX(puzzle.getRealX());
-                    v.setY(puzzle.getRealY());
-                    puzzle.canMove(false);
-                    Puzzle.setCountPuzzleOnPlace(Puzzle.getCountPuzzleOnPlace() + 1);
-
-                    if (Puzzle.getCountPuzzleOnPlace() == Puzzle.getPuzzleCount()) {
-                        AlertDialog.Builder builder = new AlertDialog.Builder(GameActivity.getContext());
-                        builder.setTitle("Congratulations!")
-                                .setMessage("You have collected puzzle");
-                        AlertDialog alert = builder.create();
-                        alert.show();
-                    }
+                if (puzzle.isOnPlace()) {
+                    fixPuzzle(v, puzzle);
+                    if (Puzzle.isEnd()) showMsg();
                 }
         }
         return true;
+    }
+
+    private void fixPuzzle(View v, Puzzle puzzle) {
+        v.setX(puzzle.getRealX());
+        v.setY(puzzle.getRealY());
+        puzzle.canMove(false);
+        Puzzle.setCountPuzzleOnPlace(Puzzle.getCountPuzzleOnPlace() + 1);
+    }
+
+    private void showMsg() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(GameActivity.getContext());
+        builder.setTitle("Congratulations!").setMessage("You have collected puzzle");
+        AlertDialog alert = builder.create();
+        alert.show();
     }
 }
