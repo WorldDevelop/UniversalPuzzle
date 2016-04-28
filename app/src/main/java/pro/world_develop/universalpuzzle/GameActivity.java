@@ -30,6 +30,7 @@ public class GameActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
+        new LockOrientation(this).lock();
 
         mainLayout = (FrameLayout) findViewById(R.id.mainLayout);
         workLayout = (FrameLayout) findViewById(R.id.workLayout);

@@ -17,7 +17,7 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        new LockOrientation(this).lock();
         fragmentsOnWidth = (TextView) findViewById(R.id.fragmentsOnWidth);
         fragmentsOnHeight = (TextView) findViewById(R.id.fragmentsOnHeight);
         seekBarOnWidth = (SeekBar) findViewById(R.id.seekBarOnWidth);
