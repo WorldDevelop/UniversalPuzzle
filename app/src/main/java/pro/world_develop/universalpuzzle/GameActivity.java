@@ -54,7 +54,7 @@ public class GameActivity extends Activity {
         puzzleHeight = frameHeight / COUNT_FRAGMENT_ON_HEIGHT;
 
         Puzzle.setPuzzleCount(COUNT_FRAGMENT_ON_HEIGHT * COUNT_FRAGMENT_ON_WIDTH);
-        Puzzle.setCurrentPuzzleOnPlace(0);
+        Puzzle.setCountPuzzleOnPlace(0);
     }
 
     private void setImage(Bitmap[][] fragments) {

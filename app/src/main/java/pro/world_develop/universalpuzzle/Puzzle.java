@@ -2,7 +2,6 @@ package pro.world_develop.universalpuzzle;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 
 /**
@@ -10,7 +9,8 @@ import android.widget.ImageView;
  */
 public class Puzzle extends ImageView {
     private static int puzzleCount;
-    private static int currentPuzzleOnPlace;
+    private static int countPuzzleOnPlace;
+
     private boolean canMove;
     private int realX;
     private int realY;
@@ -52,11 +52,11 @@ public class Puzzle extends ImageView {
         Puzzle.puzzleCount = puzzleCount;
     }
 
-    public static int getCurrentPuzzleOnPlace() {
-        return currentPuzzleOnPlace;
+    public static int getCountPuzzleOnPlace() {
+        return countPuzzleOnPlace;
     }
 
-    public static void setCurrentPuzzleOnPlace(int currentPuzzleOnPlace) {
-        Puzzle.currentPuzzleOnPlace = currentPuzzleOnPlace;
+    public static void setCountPuzzleOnPlace(int countPuzzleOnPlace) {
+        Puzzle.countPuzzleOnPlace = countPuzzleOnPlace;
     }
 }
