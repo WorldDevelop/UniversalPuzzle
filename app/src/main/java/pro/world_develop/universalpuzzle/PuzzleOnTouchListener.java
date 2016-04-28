@@ -9,12 +9,6 @@ import android.widget.FrameLayout;
  * Created by ildar on 25.04.2016.
  */
 public class PuzzleOnTouchListener implements View.OnTouchListener {
-    private Puzzle puzzle;
-
-    public PuzzleOnTouchListener(Puzzle puzzle) {
-        this.puzzle = puzzle;
-    }
-
     //разница между касанием и координатами рисунка
     private int dragX = 0;
     private int dragY = 0;
@@ -24,6 +18,7 @@ public class PuzzleOnTouchListener implements View.OnTouchListener {
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
+        Puzzle puzzle = (Puzzle) v;
         if (!puzzle.canMove()) return true;
 
         final int evX = (int) event.getRawX();
@@ -42,21 +37,21 @@ public class PuzzleOnTouchListener implements View.OnTouchListener {
             case MotionEvent.ACTION_MOVE:
                 X = evX - dragX;
                 Y = evY - dragY;
-                v.setX(X);
-                v.setY(Y);
+                puzzle.setX(X);
+                puzzle.setY(Y);
                 break;
             case MotionEvent.ACTION_UP:
                 if (puzzle.isOnPlace()) {
-                    fixPuzzle(v, puzzle);
+                    fixPuzzle(puzzle);
                     if (Puzzle.isEnd()) showMsg();
                 }
         }
         return true;
     }
 
-    private void fixPuzzle(View v, Puzzle puzzle) {
-        v.setX(puzzle.getRealX());
-        v.setY(puzzle.getRealY());
+    private void fixPuzzle(Puzzle puzzle) {
+        puzzle.setX(puzzle.getRealX());
+        puzzle.setY(puzzle.getRealY());
         puzzle.canMove(false);
         Puzzle.setCountPuzzleOnPlace(Puzzle.getCountPuzzleOnPlace() + 1);
     }

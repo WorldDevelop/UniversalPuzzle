@@ -18,7 +18,7 @@ public class Puzzle extends ImageView {
     public Puzzle(Context context, Bitmap image) {
         super(context);
         this.setImageBitmap(image);
-        this.setOnTouchListener(new PuzzleOnTouchListener(this));
+        this.setOnTouchListener(new PuzzleOnTouchListener());
         this.setScaleType(ScaleType.FIT_XY);
         canMove = true;
     }
@@ -42,10 +42,6 @@ public class Puzzle extends ImageView {
 
     public void canMove(boolean canMove) {
         this.canMove = canMove;
-    }
-
-    public static int getPuzzleCount() {
-        return puzzleCount;
     }
 
     public static void setPuzzleCount(int puzzleCount) {
