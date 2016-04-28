@@ -30,6 +30,10 @@ public class PuzzleOnTouchListener implements View.OnTouchListener {
         final int evY = (int) event.getRawY();
         switch (event.getAction() ){
             case MotionEvent.ACTION_DOWN:
+                FrameLayout frameLayout = (FrameLayout) puzzle.getParent();
+                frameLayout.removeView(puzzle);
+                frameLayout.addView(puzzle);
+
                 X = (int) puzzle.getX();
                 Y = (int) puzzle.getY();
                 dragX = evX - X;
