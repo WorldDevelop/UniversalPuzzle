@@ -2,6 +2,7 @@ package pro.world_develop.universalpuzzle;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 
 /**
@@ -9,11 +10,10 @@ import android.widget.ImageView;
  */
 public class Puzzle extends ImageView {
 
-    public Puzzle(Context context, Bitmap bitmap, int i, int j) {
+    public Puzzle(Context context, Bitmap image) {
         super(context);
-        this.setImageBitmap(bitmap);
+        this.setImageBitmap(image);
         this.setOnTouchListener(new PuzzleOnTouchListener(this));
-        this.setMaxHeight(10);
-        this.setMaxWidth(10);
+        this.setScaleType(ScaleType.FIT_XY);
     }
 }
