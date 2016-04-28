@@ -1,5 +1,7 @@
 package pro.world_develop.universalpuzzle;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,6 +53,15 @@ public class PuzzleOnTouchListener implements View.OnTouchListener {
                     v.setX(puzzle.getRealX());
                     v.setY(puzzle.getRealY());
                     puzzle.canMove(false);
+                    Puzzle.setCurrentPuzzleOnPlace(Puzzle.getCurrentPuzzleOnPlace() + 1);
+
+                    if (Puzzle.getCurrentPuzzleOnPlace() == Puzzle.getPuzzleCount()) {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(GameActivity.getContext());
+                        builder.setTitle("Congratulations!")
+                                .setMessage("You have collected puzzle");
+                        AlertDialog alert = builder.create();
+                        alert.show();
+                    }
                 }
         }
         return true;

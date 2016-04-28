@@ -9,6 +9,8 @@ import android.widget.ImageView;
  * Created by ildar on 25.04.2016.
  */
 public class Puzzle extends ImageView {
+    private static int puzzleCount;
+    private static int currentPuzzleOnPlace;
     private boolean canMove;
     private int realX;
     private int realY;
@@ -40,5 +42,21 @@ public class Puzzle extends ImageView {
 
     public void canMove(boolean canMove) {
         this.canMove = canMove;
+    }
+
+    public static int getPuzzleCount() {
+        return puzzleCount;
+    }
+
+    public static void setPuzzleCount(int puzzleCount) {
+        Puzzle.puzzleCount = puzzleCount;
+    }
+
+    public static int getCurrentPuzzleOnPlace() {
+        return currentPuzzleOnPlace;
+    }
+
+    public static void setCurrentPuzzleOnPlace(int currentPuzzleOnPlace) {
+        Puzzle.currentPuzzleOnPlace = currentPuzzleOnPlace;
     }
 }
