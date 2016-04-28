@@ -6,12 +6,23 @@
     tools:context="pro.world_develop.universalpuzzle.GameActivity"
     android:id="@+id/mainLayout">
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/main_background"
+        android:scaleType="centerCrop"
+        android:alpha="0.2"/>
+
     <FrameLayout
         android:layout_marginLeft="30px"
         android:layout_marginTop="50px"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:background="@drawable/panel"
-        android:id="@+id/workLayout"/>
+        android:id="@+id/workLayout">
+
+        
+
+    </FrameLayout>
 
 </FrameLayout>
