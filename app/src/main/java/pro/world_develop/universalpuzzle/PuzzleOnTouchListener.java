@@ -2,16 +2,17 @@ package pro.world_develop.universalpuzzle;
 
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.ImageView;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
 
 /**
  * Created by ildar on 25.04.2016.
  */
 public class PuzzleOnTouchListener implements View.OnTouchListener {
-    private ImageView img;
+    private Puzzle puzzle;
 
-    public PuzzleOnTouchListener(ImageView img) {
-        this.img = img;
+    public PuzzleOnTouchListener(Puzzle puzzle) {
+        this.puzzle = puzzle;
     }
 
     //разница между касанием и координатами рисунка
@@ -23,12 +24,14 @@ public class PuzzleOnTouchListener implements View.OnTouchListener {
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
+        if (!puzzle.canMove()) return true;
+
         final int evX = (int) event.getRawX();
         final int evY = (int) event.getRawY();
         switch (event.getAction() ){
             case MotionEvent.ACTION_DOWN:
-                X = (int) img.getX();
-                Y = (int) img.getY();
+                X = (int) puzzle.getX();
+                Y = (int) puzzle.getY();
                 dragX = evX - X;
                 dragY = evY - Y;
                 break;
@@ -38,6 +41,13 @@ public class PuzzleOnTouchListener implements View.OnTouchListener {
                 v.setX(X);
                 v.setY(Y);
                 break;
+            case MotionEvent.ACTION_UP:
+                if (Math.abs(puzzle.getX() - puzzle.getRealX()) < 10 &&
+                        Math.abs(puzzle.getY() - puzzle.getRealY()) < 10) {
+                    v.setX(puzzle.getRealX());
+                    v.setY(puzzle.getRealY());
+                    puzzle.canMove(false);
+                }
         }
         return true;
     }

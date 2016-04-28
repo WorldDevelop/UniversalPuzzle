@@ -12,6 +12,8 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
+import java.util.Random;
+
 public class GameActivity extends Activity {
     private static int COUNT_FRAGMENT_ON_HEIGHT = 2;
     private static int COUNT_FRAGMENT_ON_WIDTH = 4;
@@ -45,11 +47,17 @@ public class GameActivity extends Activity {
         Bitmap[][] bitmaps = imageDecomposing.parse(image, COUNT_FRAGMENT_ON_HEIGHT, COUNT_FRAGMENT_ON_WIDTH);
         int puzzleWidth = imageWidth / COUNT_FRAGMENT_ON_WIDTH;
         int puzzleHeight = imageHeight / COUNT_FRAGMENT_ON_HEIGHT;
+        Random rand = new Random();
         for (int i = 0; i < bitmaps.length; i++) {
             for (int j = 0; j < bitmaps[0].length; j++) {
                 Puzzle puzzle = new Puzzle(this, bitmaps[i][j]);
                 mainLayout.addView(puzzle);
-                puzzle.setLayoutParams(new FrameLayout.LayoutParams(puzzleWidth, puzzleHeight));
+                puzzle.setRealLocation(30 + i*puzzleWidth, 50 + j*puzzleHeight);
+
+                FrameLayout.LayoutParams puzzleParams = new FrameLayout.LayoutParams(puzzleWidth, puzzleHeight);
+                puzzleParams.leftMargin = rand.nextInt(displayMetrics.widthPixels - puzzleWidth);
+                puzzleParams.topMargin = rand.nextInt(displayMetrics.heightPixels - (50 + imageHeight + puzzleHeight)) + 50 + imageHeight;
+                puzzle.setLayoutParams(puzzleParams);
             }
         }
 
