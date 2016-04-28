@@ -63,7 +63,7 @@ public class PuzzleOnTouchListener implements View.OnTouchListener {
 
     private void showMsg() {
         AlertDialog.Builder builder = new AlertDialog.Builder(GameActivity.getContext());
-        builder.setTitle("Congratulations!").setMessage("You have collected puzzle");
+        builder.setTitle("Congratulations!").setMessage("You have collected puzzle!!!");
         AlertDialog alert = builder.create();
         alert.show();
     }
