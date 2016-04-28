@@ -11,8 +11,8 @@ import android.widget.FrameLayout;
 import java.util.Random;
 
 public class GameActivity extends Activity {
-    private static int COUNT_FRAGMENT_ON_HEIGHT = 1;
-    private static int COUNT_FRAGMENT_ON_WIDTH = 2;
+    private static int countFragmentOnHeight = 1;
+    private static int countFragmentOnWidth = 2;
 
     private static ImageDecomposing imageDecomposing = ImageDecomposing.INSTANCE;
     private static Context context;
@@ -36,7 +36,7 @@ public class GameActivity extends Activity {
         context = GameActivity.this;
 
         Bitmap image = getImage();
-        Bitmap[][] fragments = imageDecomposing.parse(image, COUNT_FRAGMENT_ON_HEIGHT, COUNT_FRAGMENT_ON_WIDTH);
+        Bitmap[][] fragments = imageDecomposing.parse(image, countFragmentOnHeight, countFragmentOnWidth);
         initParams(image);
         addFrame();
         setImage(fragments);
@@ -50,10 +50,10 @@ public class GameActivity extends Activity {
         getWindowManager().getDefaultDisplay().getMetrics(display);
         frameWidth = display.widthPixels - 60;
         frameHeight = image.getHeight() * frameWidth / image.getWidth();
-        puzzleWidth = frameWidth / COUNT_FRAGMENT_ON_WIDTH;
-        puzzleHeight = frameHeight / COUNT_FRAGMENT_ON_HEIGHT;
+        puzzleWidth = frameWidth / countFragmentOnWidth;
+        puzzleHeight = frameHeight / countFragmentOnHeight;
 
-        Puzzle.setPuzzleCount(COUNT_FRAGMENT_ON_HEIGHT * COUNT_FRAGMENT_ON_WIDTH);
+        Puzzle.setPuzzleCount(countFragmentOnHeight * countFragmentOnWidth);
         Puzzle.setCountPuzzleOnPlace(0);
     }
 
@@ -80,6 +80,14 @@ public class GameActivity extends Activity {
         puzzleParams.leftMargin = rand.nextInt(display.widthPixels - puzzleWidth);
         puzzleParams.topMargin = rand.nextInt(display.heightPixels - (50 + frameHeight + puzzleHeight)) + 50 + frameHeight;
         puzzle.setLayoutParams(puzzleParams);
+    }
+
+    public static void setCountFragmentOnHeight(int countFragmentOnHeight) {
+        GameActivity.countFragmentOnHeight = countFragmentOnHeight;
+    }
+
+    public static void setCountFragmentOnWidth(int countFragmentOnWidth) {
+        GameActivity.countFragmentOnWidth = countFragmentOnWidth;
     }
 
     public static Context getContext() {

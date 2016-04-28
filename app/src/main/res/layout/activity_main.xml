@@ -32,4 +32,68 @@
         android:fontFamily="casual"
         android:background="@drawable/round_btn"/>
 
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:layout_alignParentBottom="true"
+        android:gravity="center_horizontal">
+
+        <SeekBar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/seekBarOnHeight"
+            android:max="4"/>
+        <LinearLayout android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:padding="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Фрагментов по высоте: "
+                android:textStyle="bold"
+                android:textSize="20dp"
+                android:textColor="@android:color/white"/>
+
+            <TextView
+                android:id="@+id/fragmentsOnHeight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2"
+                android:textStyle="bold"
+                android:textSize="30dp"
+                android:textColor="@android:color/white"/>
+        </LinearLayout>
+
+        <SeekBar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/seekBarOnWidth"
+            android:max="4" />
+        <LinearLayout android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:padding="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Фрагментов по ширине: "
+                android:textStyle="bold"
+                android:textSize="20dp"
+                android:textColor="@android:color/white"/>
+
+            <TextView
+                android:id="@+id/fragmentsOnWidth"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2"
+                android:textStyle="bold"
+                android:textSize="30dp"
+                android:textColor="@android:color/white"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
 </RelativeLayout>
