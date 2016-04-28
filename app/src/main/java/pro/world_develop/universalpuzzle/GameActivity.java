@@ -47,7 +47,7 @@ public class GameActivity extends Activity {
         int puzzleHeight = imageHeight / COUNT_FRAGMENT_ON_HEIGHT;
         for (int i = 0; i < bitmaps.length; i++) {
             for (int j = 0; j < bitmaps[0].length; j++) {
-                Puzzle puzzle = new Puzzle(this, bitmaps[i][j], puzzleHeight, puzzleWidth);
+                Puzzle puzzle = new Puzzle(this, bitmaps[i][j]);
                 mainLayout.addView(puzzle);
                 puzzle.setLayoutParams(new FrameLayout.LayoutParams(puzzleWidth, puzzleHeight));
             }
