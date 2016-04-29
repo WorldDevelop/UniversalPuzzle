@@ -1,8 +1,14 @@
 package pro.world_develop.universalpuzzle;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.view.MotionEvent;
+import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+
+import pro.world_develop.universalpuzzle.activities.GameActivity;
 
 /**
  * Created by ildar on 25.04.2016.
@@ -18,7 +24,61 @@ public class Puzzle extends ImageView {
     public Puzzle(Context context, Bitmap image) {
         super(context);
         this.setImageBitmap(image);
-        this.setOnTouchListener(new PuzzleOnTouchListener());
+        this.setOnTouchListener(new OnTouchListener() {
+            //разница между касанием и координатами рисунка
+            private int dragX = 0;
+            private int dragY = 0;
+            //координаты рисунка
+            private int X;
+            private int Y;
+
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                Puzzle puzzle = (Puzzle) view;
+                if (!puzzle.canMove()) return true;
+
+                final int evX = (int) motionEvent.getRawX();
+                final int evY = (int) motionEvent.getRawY();
+                switch (motionEvent.getAction() ){
+                    case MotionEvent.ACTION_DOWN:
+                        FrameLayout frameLayout = (FrameLayout) puzzle.getParent();
+                        frameLayout.removeView(puzzle);
+                        frameLayout.addView(puzzle);
+
+                        X = (int) puzzle.getX();
+                        Y = (int) puzzle.getY();
+                        dragX = evX - X;
+                        dragY = evY - Y;
+                        break;
+                    case MotionEvent.ACTION_MOVE:
+                        X = evX - dragX;
+                        Y = evY - dragY;
+                        puzzle.setX(X);
+                        puzzle.setY(Y);
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        if (puzzle.isOnPlace()) {
+                            fixPuzzle(puzzle);
+                            if (Puzzle.isEnd()) showMsg();
+                        }
+                }
+                return true;
+            }
+
+            private void fixPuzzle(Puzzle puzzle) {
+                puzzle.setX(puzzle.getRealX());
+                puzzle.setY(puzzle.getRealY());
+                puzzle.canMove(false);
+                Puzzle.setCountPuzzleOnPlace(Puzzle.getCountPuzzleOnPlace() + 1);
+            }
+
+            private void showMsg() {
+                AlertDialog.Builder builder = new AlertDialog.Builder(GameActivity.getContext());
+                builder.setTitle("Congratulations!").setMessage("You have collected puzzle!!!");
+                AlertDialog alert = builder.create();
+                alert.show();
+            }
+        });
         this.setScaleType(ScaleType.FIT_XY);
         canMove = true;
     }
