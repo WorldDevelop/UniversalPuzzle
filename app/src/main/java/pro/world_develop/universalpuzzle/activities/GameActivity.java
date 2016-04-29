@@ -1,4 +1,4 @@
-package pro.world_develop.universalpuzzle;
+package pro.world_develop.universalpuzzle.activities;
 
 import android.app.Activity;
 import android.content.Context;
@@ -9,6 +9,10 @@ import android.util.DisplayMetrics;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import java.util.Random;
+
+import pro.world_develop.universalpuzzle.ImageDecomposing;
+import pro.world_develop.universalpuzzle.Puzzle;
+import pro.world_develop.universalpuzzle.R;
 
 public class GameActivity extends Activity {
     private static int countFragmentOnHeight = 1;

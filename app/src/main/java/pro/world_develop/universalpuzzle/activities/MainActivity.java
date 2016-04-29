@@ -1,4 +1,4 @@
-package pro.world_develop.universalpuzzle;
+package pro.world_develop.universalpuzzle.activities;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -7,11 +7,35 @@ import android.view.View;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import pro.world_develop.universalpuzzle.R;
+
 public class MainActivity extends Activity {
     TextView fragmentsOnHeight;
     TextView fragmentsOnWidth;
     SeekBar seekBarOnHeight;
     SeekBar seekBarOnWidth;
+
+    public class CountFragmentsOnSeekBarChangeListener implements SeekBar.OnSeekBarChangeListener {
+        private TextView textView;
+
+        public CountFragmentsOnSeekBarChangeListener(TextView textView) {
+            this.textView = textView;
+        }
+
+        @Override
+        public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+            textView.setText(String.valueOf(seekBar.getProgress() + 2));
+        }
+
+        @Override
+        public void onStartTrackingTouch(SeekBar seekBar) {
+
+        }
+
+        @Override
+        public void onStopTrackingTouch(SeekBar seekBar) {
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
