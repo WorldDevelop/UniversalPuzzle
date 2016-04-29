@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="pro.world_develop.universalpuzzle.GameActivity"
+    tools:context=".activities.GameActivity"
     android:id="@+id/mainLayout">
 
     <ImageView
