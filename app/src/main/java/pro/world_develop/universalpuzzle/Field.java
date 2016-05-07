@@ -93,6 +93,13 @@ public class Field {
                 if (mask[i][j] != layer) return false;
             }
         }
+        for (int i = 0; i < mask.length; i++) {
+            for (int j = 0; j < mask[0].length; j++) {
+                puzzles[i][j].setX(puzzles[i][j].getRealX());
+                puzzles[i][j].setY(puzzles[i][j].getRealY());
+                puzzles[i][j].canMove(false);
+            }
+        }
         return true;
     }
 }
