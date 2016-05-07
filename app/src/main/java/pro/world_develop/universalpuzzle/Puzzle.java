@@ -62,9 +62,9 @@ public class Puzzle extends ImageView {
                     case MotionEvent.ACTION_UP:
                         if (puzzle.isOnPlace()) {
                             fixPuzzle(puzzle);
-                            if (puzzle.parentField.isEnd()) showMsg();
                         }
                         puzzle.parentField.connectNearPuzzle(puzzle);
+                        if (puzzle.parentField.isEnd()) showMsg();
                 }
                 return true;
             }
