@@ -1,5 +1,6 @@
 package pro.world_develop.universalpuzzle;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -72,8 +73,15 @@ public class Field {
         }
     }
 
-    public void movePuzzlesInSameLayer(Puzzle p) {
-        int currLayer = mask[p.getI()][p.getJ()];
+    public void movePuzzlesInSameLayer(Puzzle p, List<Puzzle> puzzleList) {
+        //int currLayer = mask[p.getI()][p.getJ()];
+        for (Puzzle puzzle : puzzleList) {
+            int x = p.getRealX() - puzzle.getRealX();
+            int y = p.getRealY() - puzzle.getRealY();
+            puzzle.setX(p.getX() - x);
+            puzzle.setY(p.getY() - y);
+        }
+        /*
         for (int i = 0; i < mask.length; i++) {
             for (int j = 0; j < mask[0].length; j++) {
                 if (mask[i][j] == currLayer && puzzles[i][j].canMove()) {
@@ -83,7 +91,7 @@ public class Field {
                     puzzles[i][j].setY(p.getY() - y);
                 }
             }
-        }
+        }*/
     }
 
     public boolean isEnd() {
@@ -101,5 +109,16 @@ public class Field {
             }
         }
         return true;
+    }
+
+    public List<Puzzle> getPuzzleListOnSameLayer(Puzzle p) {
+        List<Puzzle> puzzleList = new ArrayList<>();
+        int currLayer = mask[p.getI()][p.getJ()];
+        for (int i = 0; i < mask.length; i++) {
+            for (int j = 0; j < mask[0].length; j++) {
+                if (mask[i][j] == currLayer) puzzleList.add(puzzles[i][j]);
+            }
+        }
+        return puzzleList;
     }
 }

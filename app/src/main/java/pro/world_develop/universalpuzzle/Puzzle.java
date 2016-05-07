@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
+import java.util.List;
+
 import pro.world_develop.universalpuzzle.activities.GameActivity;
 
 /**
@@ -33,6 +35,7 @@ public class Puzzle extends ImageView {
             //координаты рисунка
             private int X;
             private int Y;
+            private List<Puzzle> puzzleList;
 
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -44,6 +47,7 @@ public class Puzzle extends ImageView {
                 switch (motionEvent.getAction() ){
                     case MotionEvent.ACTION_DOWN:
                         FrameLayout frameLayout = (FrameLayout) puzzle.getParent();
+                        puzzleList = puzzle.getParentField().getPuzzleListOnSameLayer(puzzle);
                         frameLayout.removeView(puzzle);
                         frameLayout.addView(puzzle);
 
@@ -57,7 +61,7 @@ public class Puzzle extends ImageView {
                         Y = evY - dragY;
                         puzzle.setX(X);
                         puzzle.setY(Y);
-                        puzzle.parentField.movePuzzlesInSameLayer(puzzle);
+                        puzzle.parentField.movePuzzlesInSameLayer(puzzle, puzzleList);
                         break;
                     case MotionEvent.ACTION_UP:
                         if (puzzle.isOnPlace()) {
