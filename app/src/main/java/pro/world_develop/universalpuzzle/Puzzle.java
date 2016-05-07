@@ -3,6 +3,7 @@ package pro.world_develop.universalpuzzle;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.media.MediaPlayer;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -69,7 +70,11 @@ public class Puzzle extends ImageView {
                 puzzle.setX(puzzle.getRealX());
                 puzzle.setY(puzzle.getRealY());
                 puzzle.canMove(false);
-                Puzzle.setCountPuzzleOnPlace(Puzzle.getCountPuzzleOnPlace() + 1);
+                new Thread(){
+                    public void run(){
+                        MediaPlayer.create(GameActivity.getContext(), R.raw.click2).start();
+                    }
+                }.start();
             }
 
             private void showMsg() {
