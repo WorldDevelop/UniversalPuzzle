@@ -48,8 +48,10 @@ public class Puzzle extends ImageView {
                     case MotionEvent.ACTION_DOWN:
                         FrameLayout frameLayout = (FrameLayout) puzzle.getParent();
                         puzzleList = puzzle.getParentField().getPuzzleListOnSameLayer(puzzle);
-                        frameLayout.removeView(puzzle);
-                        frameLayout.addView(puzzle);
+                        for (Puzzle p : puzzleList) {
+                            frameLayout.removeView(p);
+                            frameLayout.addView(p);
+                        }
 
                         X = (int) puzzle.getX();
                         Y = (int) puzzle.getY();
