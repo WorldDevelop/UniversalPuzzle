@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
+import java.util.List;
+
 import pro.world_develop.universalpuzzle.activities.GameActivity;
 
 /**
@@ -21,6 +23,8 @@ public class Puzzle extends ImageView {
     private boolean canMove;
     private int realX;
     private int realY;
+    private Field parentField;
+    private int i, j;
 
     public Puzzle(Context context, Bitmap image) {
         super(context);
@@ -32,6 +36,7 @@ public class Puzzle extends ImageView {
             //координаты рисунка
             private int X;
             private int Y;
+            private List<Puzzle> puzzleList;
 
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -43,8 +48,11 @@ public class Puzzle extends ImageView {
                 switch (motionEvent.getAction() ){
                     case MotionEvent.ACTION_DOWN:
                         FrameLayout frameLayout = (FrameLayout) puzzle.getParent();
-                        frameLayout.removeView(puzzle);
-                        frameLayout.addView(puzzle);
+                        puzzleList = puzzle.getParentField().getPuzzleListOnSameLayer(puzzle);
+                        for (Puzzle p : puzzleList) {
+                            frameLayout.removeView(p);
+                            frameLayout.addView(p);
+                        }
 
                         X = (int) puzzle.getX();
                         Y = (int) puzzle.getY();
@@ -56,12 +64,14 @@ public class Puzzle extends ImageView {
                         Y = evY - dragY;
                         puzzle.setX(X);
                         puzzle.setY(Y);
+                        puzzle.parentField.movePuzzlesInSameLayer(puzzle, puzzleList);
                         break;
                     case MotionEvent.ACTION_UP:
                         if (puzzle.isOnPlace()) {
                             fixPuzzle(puzzle);
-                            if (Puzzle.isEnd()) showMsg();
                         }
+                        puzzle.parentField.connectNearPuzzle(puzzle);
+                        if (puzzle.parentField.isEnd()) showMsg();
                 }
                 return true;
             }
@@ -87,6 +97,22 @@ public class Puzzle extends ImageView {
         this.setScaleType(ScaleType.FIT_XY);
         canMove = true;
     }
+/*
+    private boolean isNearOuter() {
+        Field.DynamicList list = new Field.DynamicList();
+        list.puzzle = this;
+        Puzzle puzzle1 = parentField.puzzles[i - 1][j];
+        Puzzle puzzle2 = parentField.puzzles[i][j + 1];
+        Puzzle puzzle3 = parentField.puzzles[i + 1][j];
+        Puzzle puzzle4 = parentField.puzzles[i][j - 1];
+        if (isNear(this, puzzle1)) list = parentField.addToList(list, puzzle1);
+
+    }
+*/
+    public static boolean isNear(Puzzle p1, Puzzle p2) {
+        return (Math.abs(Math.abs(p1.getX() - p2.getX()) - Math.abs(p1.getRealX() - p2.getRealX())) < 20 &&
+                Math.abs(Math.abs(p1.getY() - p2.getY()) - Math.abs(p1.getRealY() - p2.getRealY())) < 20);
+    }
 
     public void setRealLocation(int x, int y) {
         realX = x;
@@ -99,6 +125,22 @@ public class Puzzle extends ImageView {
 
     public int getRealY() {
         return realY;
+    }
+
+    public int getI() {
+        return i;
+    }
+
+    public void setI(int i) {
+        this.i = i;
+    }
+
+    public int getJ() {
+        return j;
+    }
+
+    public void setJ(int j) {
+        this.j = j;
     }
 
     public boolean canMove() {
@@ -122,10 +164,23 @@ public class Puzzle extends ImageView {
     }
 
     public boolean isOnPlace() {
-        return Math.abs(getX() - realX) < 10 && Math.abs(getY() - realY) < 10;
+        return Math.abs(getX() - realX) < 15 && Math.abs(getY() - realY) < 15;
     }
 
     public static boolean isEnd() {
         return puzzleCount == countPuzzleOnPlace;
+    }
+
+    public Field getParentField() {
+        return parentField;
+    }
+
+    public void setParentField(Field parentField) {
+        this.parentField = parentField;
+    }
+
+    public void setFieldPos(int i, int j) {
+        this.i = i;
+        this.j = j;
     }
 }
