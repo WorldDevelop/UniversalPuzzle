@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import java.util.Random;
 
+import pro.world_develop.universalpuzzle.Field;
 import pro.world_develop.universalpuzzle.ImageDecomposing;
 import pro.world_develop.universalpuzzle.Puzzle;
 import pro.world_develop.universalpuzzle.R;
@@ -61,12 +62,15 @@ public class GameActivity extends Activity {
         Puzzle.setCountPuzzleOnPlace(0);
     }
 
-    private void setImage(Bitmap[][] fragments) {
+    private Field setImage(Bitmap[][] fragments) {
+        Puzzle[][] puzzles = new Puzzle[fragments.length][fragments[0].length];
         for (int i = 0; i < fragments.length; i++) {
             for (int j = 0; j < fragments[0].length; j++) {
-                addPuzzle(new Puzzle(this, fragments[i][j]), i, j);
+                puzzles[i][j] = new Puzzle(this, fragments[i][j]);
+                addPuzzle(puzzles[i][j], i, j);
             }
         }
+        return new Field(puzzles);
     }
 
     private void addFrame() {
