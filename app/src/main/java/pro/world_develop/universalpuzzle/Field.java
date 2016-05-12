@@ -9,8 +9,10 @@ import java.util.List;
 public class Field {
     Puzzle[][] puzzles;
     int[][] mask;
+    List<Layer> layers;
     int layersCount;
 
+    /*
     public Field(Puzzle[][] puzzles) {
         this.puzzles = puzzles;
         mask = new int[puzzles.length][puzzles[0].length];
@@ -20,6 +22,16 @@ public class Field {
                 puzzles[i][j].setParentField(this);
                 puzzles[i][j].setFieldPos(i, j);
                 mask[i][j] = ++layersCount;
+            }
+        }
+    }
+    */
+
+    public Field(List<Layer> layers) {
+        this.layers = layers;
+        for (Layer layer : layers) {
+            for (Puzzle puzzle : layer.getPuzzles()) {
+                puzzle.setParentField(this);
             }
         }
     }

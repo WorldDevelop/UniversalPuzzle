@@ -8,10 +8,14 @@ import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import pro.world_develop.universalpuzzle.Field;
 import pro.world_develop.universalpuzzle.ImageDecomposing;
+import pro.world_develop.universalpuzzle.Layer;
 import pro.world_develop.universalpuzzle.Puzzle;
 import pro.world_develop.universalpuzzle.R;
 
@@ -44,7 +48,8 @@ public class GameActivity extends Activity {
         Bitmap[][] fragments = imageDecomposing.parse(image, countFragmentOnHeight, countFragmentOnWidth);
         initParams(image);
         addFrame();
-        setImage(fragments);
+        setPuzzles(fragments);
+        //setImage(fragments);
     }
 
     private Bitmap getImage() {
@@ -62,6 +67,7 @@ public class GameActivity extends Activity {
         Puzzle.setCountPuzzleOnPlace(0);
     }
 
+    /*
     private Field setImage(Bitmap[][] fragments) {
         Puzzle[][] puzzles = new Puzzle[fragments.length][fragments[0].length];
         for (int i = 0; i < fragments.length; i++) {
@@ -72,6 +78,32 @@ public class GameActivity extends Activity {
         }
         return new Field(puzzles);
     }
+    */
+
+    private Field setPuzzles(Bitmap[][] fragments) {
+        List<Layer> layers = new ArrayList<>();
+        for (int i = 0; i < fragments.length ; i++) {
+            for (int j = 0; j < fragments[0].length; j++) {
+                Puzzle puzzle = new Puzzle(this, fragments[i][j]);
+
+                Layer layer = new Layer(getContext(), puzzle);
+                layer.setLayoutParams(workLayout.getLayoutParams());
+                layer.addView(puzzle);
+                layer.setX(workLayout.getX());
+                layer.setY(workLayout.getY());
+
+                puzzle.setRealLocation(i * puzzleWidth, j * puzzleHeight);
+                FrameLayout.LayoutParams puzzleParams = new FrameLayout.LayoutParams(puzzleWidth, puzzleHeight);
+                puzzleParams.leftMargin = puzzle.getRealX();//rand.nextInt(display.widthPixels - puzzleWidth);
+                puzzleParams.topMargin = puzzle.getRealY();//rand.nextInt(display.heightPixels - (50 + frameHeight + puzzleHeight)) + 50 + frameHeight;
+                puzzle.setLayoutParams(puzzleParams);
+
+                layers.add(layer);
+                mainLayout.addView(layer);
+            }
+        }
+        return new Field(layers);
+    }
 
     private void addFrame() {
         ViewGroup.LayoutParams params = workLayout.getLayoutParams();
@@ -80,6 +112,7 @@ public class GameActivity extends Activity {
         workLayout.setLayoutParams(params);
     }
 
+    /*
     private void addPuzzle(Puzzle puzzle, int iInd, int jInd) {
         mainLayout.addView(puzzle);
         puzzle.setRealLocation(30 + iInd * puzzleWidth, 50 + jInd * puzzleHeight);
@@ -89,6 +122,7 @@ public class GameActivity extends Activity {
         puzzleParams.topMargin = rand.nextInt(display.heightPixels - (50 + frameHeight + puzzleHeight)) + 50 + frameHeight;
         puzzle.setLayoutParams(puzzleParams);
     }
+    */
 
     public static void setCountFragmentOnHeight(int countFragmentOnHeight) {
         GameActivity.countFragmentOnHeight = countFragmentOnHeight;
