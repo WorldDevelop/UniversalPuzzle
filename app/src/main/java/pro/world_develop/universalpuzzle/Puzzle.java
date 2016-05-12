@@ -70,13 +70,10 @@ public class Puzzle extends ImageView {
                             layer.fix();
                         }
                         puzzle.getParentField().tryMergeLayout(layer);
-                        /*
-                        if (puzzle.isOnPlace()) {
-                            fixPuzzle(puzzle);
+
+                        if (puzzle.getParentField().isEnd()) {
+                            showMsg();
                         }
-                        puzzle.parentField.connectNearPuzzle(puzzle);
-                        if (puzzle.parentField.isEnd()) showMsg();
-                        */
                 }
                 return true;
             }

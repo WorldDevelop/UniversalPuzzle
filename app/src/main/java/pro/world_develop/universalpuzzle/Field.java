@@ -108,20 +108,12 @@ public class Field {
     }
 
     public boolean isEnd() {
-        int layer = mask[0][0];
-        for (int i = 0; i < mask.length; i++) {
-            for (int j = 0; j < mask[0].length; j++) {
-                if (mask[i][j] != layer) return false;
-            }
+        if (layers.size() == 1) {
+            Layer layer = layers.get(0);
+            layer.fix();
+            return true;
         }
-        for (int i = 0; i < mask.length; i++) {
-            for (int j = 0; j < mask[0].length; j++) {
-                puzzles[i][j].setX(puzzles[i][j].getRealX());
-                puzzles[i][j].setY(puzzles[i][j].getRealY());
-                puzzles[i][j].canMove(false);
-            }
-        }
-        return true;
+        return false;
     }
 
     public List<Puzzle> getPuzzleListOnSameLayer(Puzzle p) {
