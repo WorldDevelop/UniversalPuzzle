@@ -89,13 +89,13 @@ public class GameActivity extends Activity {
                 Layer layer = new Layer(getContext(), puzzle);
                 layer.setLayoutParams(workLayout.getLayoutParams());
                 layer.addView(puzzle);
-                layer.setX(workLayout.getX());
-                layer.setY(workLayout.getY());
 
                 puzzle.setRealLocation(i * puzzleWidth, j * puzzleHeight);
+                layer.setX(rand.nextInt(display.widthPixels - puzzleWidth) - puzzle.getRealX());
+                layer.setY(rand.nextInt(display.heightPixels - (50 + frameHeight + puzzleHeight)) + 50 + frameHeight - puzzle.getRealY());
                 FrameLayout.LayoutParams puzzleParams = new FrameLayout.LayoutParams(puzzleWidth, puzzleHeight);
-                puzzleParams.leftMargin = puzzle.getRealX();//rand.nextInt(display.widthPixels - puzzleWidth);
-                puzzleParams.topMargin = puzzle.getRealY();//rand.nextInt(display.heightPixels - (50 + frameHeight + puzzleHeight)) + 50 + frameHeight;
+                puzzleParams.leftMargin = puzzle.getRealX();
+                puzzleParams.topMargin = puzzle.getRealY();
                 puzzle.setLayoutParams(puzzleParams);
 
                 layers.add(layer);
