@@ -32,16 +32,8 @@ public class Layer extends FrameLayout {
         return puzzles;
     }
 
-    public void setPuzzles(List<Puzzle> puzzles) {
-        this.puzzles = puzzles;
-    }
-
     public boolean isCanMove() {
         return canMove;
-    }
-
-    public void setCanMove(boolean canMove) {
-        this.canMove = canMove;
     }
 
     public boolean isOnPlace() {
