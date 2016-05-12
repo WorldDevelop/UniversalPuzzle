@@ -32,6 +32,7 @@ public class Field {
         for (Layer layer : layers) {
             for (Puzzle puzzle : layer.getPuzzles()) {
                 puzzle.setParentField(this);
+                puzzle.setParentLayer(layer);
             }
         }
     }

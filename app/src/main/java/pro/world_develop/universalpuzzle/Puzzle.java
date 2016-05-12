@@ -24,6 +24,7 @@ public class Puzzle extends ImageView {
     private int realX;
     private int realY;
     private Field parentField;
+    private Layer parentLayer;
     private int i, j;
 
     public Puzzle(Context context, Bitmap image) {
@@ -38,6 +39,48 @@ public class Puzzle extends ImageView {
             private int Y;
             private List<Puzzle> puzzleList;
 
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                Puzzle puzzle = (Puzzle) view;
+                Layer layer = puzzle.getParentLayer();
+
+                if (!layer.isCanMove()) return true;
+
+                final int evX = (int) motionEvent.getRawX();
+                final int evY = (int) motionEvent.getRawY();
+                switch (motionEvent.getAction() ){
+                    case MotionEvent.ACTION_DOWN:
+                        FrameLayout frameLayout = (FrameLayout) layer.getParent();
+                        frameLayout.removeView(layer);
+                        frameLayout.addView(layer);
+
+                        X = (int) layer.getX();
+                        Y = (int) layer.getY();
+                        dragX = evX - X;
+                        dragY = evY - Y;
+                        break;
+                    case MotionEvent.ACTION_MOVE:
+                        X = evX - dragX;
+                        Y = evY - dragY;
+                        layer.setX(X);
+                        layer.setY(Y);
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        if (layer.isOnPlace()) {
+                            layer.fix();
+                        }
+                        /*
+                        if (puzzle.isOnPlace()) {
+                            fixPuzzle(puzzle);
+                        }
+                        puzzle.parentField.connectNearPuzzle(puzzle);
+                        if (puzzle.parentField.isEnd()) showMsg();
+                        */
+                }
+                return true;
+            }
+
+            /*
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 Puzzle puzzle = (Puzzle) view;
@@ -75,6 +118,7 @@ public class Puzzle extends ImageView {
                 }
                 return true;
             }
+            */
 
             private void fixPuzzle(Puzzle puzzle) {
                 puzzle.setX(puzzle.getRealX());
@@ -177,6 +221,14 @@ public class Puzzle extends ImageView {
 
     public void setParentField(Field parentField) {
         this.parentField = parentField;
+    }
+
+    public Layer getParentLayer() {
+        return parentLayer;
+    }
+
+    public void setParentLayer(Layer parentLayer) {
+        this.parentLayer = parentLayer;
     }
 
     public void setFieldPos(int i, int j) {

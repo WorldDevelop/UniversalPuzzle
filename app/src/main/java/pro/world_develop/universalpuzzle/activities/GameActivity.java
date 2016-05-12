@@ -86,7 +86,7 @@ public class GameActivity extends Activity {
             for (int j = 0; j < fragments[0].length; j++) {
                 Puzzle puzzle = new Puzzle(this, fragments[i][j]);
 
-                Layer layer = new Layer(getContext(), puzzle);
+                Layer layer = new Layer(getContext(), puzzle, workLayout);
                 layer.setLayoutParams(workLayout.getLayoutParams());
                 layer.addView(puzzle);
 
