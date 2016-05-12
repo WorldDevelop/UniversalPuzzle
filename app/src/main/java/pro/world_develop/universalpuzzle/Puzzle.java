@@ -69,6 +69,7 @@ public class Puzzle extends ImageView {
                         if (layer.isOnPlace()) {
                             layer.fix();
                         }
+                        puzzle.getParentField().tryMergeLayout(layer);
                         /*
                         if (puzzle.isOnPlace()) {
                             fixPuzzle(puzzle);

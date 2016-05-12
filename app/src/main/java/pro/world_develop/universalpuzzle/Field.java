@@ -134,4 +134,46 @@ public class Field {
         }
         return puzzleList;
     }
+
+    public void tryMergeLayout(Layer layer) {
+        int i = 0;
+
+        while (i < layers.size()) {
+            Layer layer1 = layers.get(i);
+            if (layer.equals(layer1)) {
+                i++;
+                continue;
+            }
+
+            if (Math.abs(layer.getX() - layer1.getX()) < 15 &&
+                    Math.abs(layer.getY() - layer1.getY()) < 15) {
+                mergeLayers(layer, layer1);
+                layers.remove(layer1);
+            } else {
+                i++;
+            }
+        }
+
+        /*
+        while (i < layers.size() - 1) {
+            int j = i + 1;
+            while (j < layers.size()) {
+                Layer layer1 = layers.get(i);
+                Layer layer2 = layers.get(j);
+                if (Math.abs(layer1.getX() - layer2.getX()) < 15 &&
+                        Math.abs(layer1.getY() - layer2.getY()) < 15)
+                    Layer layer = mergeLayers(layer1, layer2);
+            }
+        }
+        */
+    }
+
+    private void mergeLayers(Layer layer1, Layer layer2) {
+        for (Puzzle p : layer2.getPuzzles()) {
+            p.setParentLayer(layer1);
+            layer2.removeView(p);
+            layer1.addView(p);
+            layer1.getPuzzles().add(p);
+        }
+    }
 }
