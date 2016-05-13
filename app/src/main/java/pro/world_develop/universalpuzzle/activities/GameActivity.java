@@ -27,6 +27,7 @@ public class GameActivity extends Activity {
     private static ImageDecomposing imageDecomposing = ImageDecomposing.INSTANCE;
     private static Context context;
     private static Random rand = new Random();
+    private static Field field;
     private static DisplayMetrics display = new DisplayMetrics();
 
     private FrameLayout mainLayout;
@@ -49,7 +50,27 @@ public class GameActivity extends Activity {
         Bitmap[][] fragments = imageDecomposing.parse(image, countFragmentOnHeight, countFragmentOnWidth);
         initParams(image);
         addFrame();
-        setPuzzles(fragments);
+        if (field == null)
+            field = createField(fragments);
+        showPuzzles(field);
+    }
+
+    private void showPuzzles(Field field) {
+        for (Layer layer : field.getLayers()) {
+            if (!layer.isCanMove()) {
+                layer.setX(workLayout.getX());
+                layer.setY(workLayout.getY());
+            } else if (display.heightPixels > display.widthPixels) {
+                layer.setX(rand.nextInt(display.widthPixels - puzzleWidth) - layer.getPuzzles().get(0).getRealX());
+                layer.setY(rand.nextInt(display.heightPixels - (50 + frameHeight + puzzleHeight)) + 50 + frameHeight - layer.getPuzzles().get(0).getRealY());
+            } else {
+                layer.setX(frameWidth + rand.nextInt(display.widthPixels-frameWidth - layer.getPuzzles().get(0).getRealX()));
+                layer.setY(rand.nextInt(display.heightPixels - layer.getPuzzles().get(0).getRealX()));
+            }
+            if (layer.getParent() != null)
+                ((FrameLayout) layer.getParent()).removeView(layer);
+            mainLayout.addView(layer);
+        }
     }
 
     private Bitmap getImage() {
@@ -69,7 +90,7 @@ public class GameActivity extends Activity {
         puzzleHeight = frameHeight / countFragmentOnHeight;
     }
 
-    private Field setPuzzles(Bitmap[][] fragments) {
+    private Field createField(Bitmap[][] fragments) {
         List<Layer> layers = new ArrayList<>();
         for (int i = 0; i < fragments.length ; i++) {
             for (int j = 0; j < fragments[0].length; j++) {
@@ -86,10 +107,10 @@ public class GameActivity extends Activity {
         Layer layer = new Layer(getContext(), puzzle, workLayout);
         layer.setLayoutParams(workLayout.getLayoutParams());
         layer.addView(puzzle);
-        layer.setX(rand.nextInt(display.widthPixels - puzzleWidth) - puzzle.getRealX());
-        layer.setY(rand.nextInt(display.heightPixels - (50 + frameHeight + puzzleHeight)) + 50 + frameHeight - puzzle.getRealY());
+        //layer.setX(rand.nextInt(display.widthPixels - puzzleWidth) - puzzle.getRealX());
+        //layer.setY(rand.nextInt(display.heightPixels - (50 + frameHeight + puzzleHeight)) + 50 + frameHeight - puzzle.getRealY());
 
-        mainLayout.addView(layer);
+        //mainLayout.addView(layer);
         return layer;
     }
 

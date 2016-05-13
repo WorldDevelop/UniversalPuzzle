@@ -43,6 +43,10 @@ public class Field {
         }
     }
 
+    public List<Layer> getLayers() {
+        return layers;
+    }
+
     private void mergeLayers(Layer toLayer, Layer fromLayer) {
         for (Puzzle p : fromLayer.getPuzzles()) {
             p.setParentLayer(toLayer);
