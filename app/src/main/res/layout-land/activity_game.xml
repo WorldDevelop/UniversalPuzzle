@@ -15,13 +15,12 @@
         android:alpha="0.2"/>
 
     <FrameLayout
-        android:layout_marginLeft="30px"
-        android:layout_marginTop="50px"
+        android:layout_marginLeft="50px"
+        android:layout_marginTop="30px"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:background="@drawable/panel"
         android:id="@+id/workLayout">
-
     </FrameLayout>
 
 </FrameLayout>
