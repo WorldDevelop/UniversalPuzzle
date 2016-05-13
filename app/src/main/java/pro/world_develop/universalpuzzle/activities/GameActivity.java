@@ -53,8 +53,13 @@ public class GameActivity extends Activity {
 
     private void initParams(Bitmap image) {
         getWindowManager().getDefaultDisplay().getMetrics(display);
-        frameWidth = display.widthPixels - 60;
-        frameHeight = image.getHeight() * frameWidth / image.getWidth();
+        if (display.heightPixels > display.widthPixels) {
+            frameWidth = display.widthPixels - 60;
+            frameHeight = image.getHeight() * frameWidth / image.getWidth();
+        } else {
+            frameWidth = display.widthPixels / 2 - 60;
+            frameHeight = image.getHeight() * frameWidth / image.getWidth();
+        }
         puzzleWidth = frameWidth / countFragmentOnWidth;
         puzzleHeight = frameHeight / countFragmentOnHeight;
 
