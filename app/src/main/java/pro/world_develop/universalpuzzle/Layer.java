@@ -1,12 +1,15 @@
 package pro.world_develop.universalpuzzle;
 
 import android.content.Context;
+import android.media.MediaPlayer;
 import android.text.Layout;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import pro.world_develop.universalpuzzle.activities.GameActivity;
 
 /**
  * Created by User on 12.05.2016.
@@ -44,5 +47,10 @@ public class Layer extends FrameLayout {
         setX(frame.getX());
         setY(frame.getY());
         canMove = false;
+        new Thread() {
+            public void run() {
+                MediaPlayer.create(GameActivity.getContext(), R.raw.click2).start();
+            }
+        }.start();
     }
 }
