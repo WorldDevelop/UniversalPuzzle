@@ -21,9 +21,6 @@
         android:layout_height="100dp"
         android:background="@drawable/panel"
         android:id="@+id/workLayout">
-
-
-
     </FrameLayout>
 
 </FrameLayout>
