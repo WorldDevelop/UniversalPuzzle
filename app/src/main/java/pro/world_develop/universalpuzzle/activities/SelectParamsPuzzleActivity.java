@@ -1,8 +1,9 @@
-package pro.world_develop.universalpuzzle;
+package pro.world_develop.universalpuzzle.activities;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
@@ -10,10 +11,10 @@ import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-import pro.world_develop.universalpuzzle.activities.GameActivity;
+import pro.world_develop.universalpuzzle.R;
 
 public class SelectParamsPuzzleActivity extends Activity {
-    private static Bitmap image;
+    private static Drawable image;
 
     TextView fragmentsOnHeight;
     TextView fragmentsOnWidth;
@@ -47,7 +48,7 @@ public class SelectParamsPuzzleActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_params_puzzle);
-        if (image != null) ((ImageView) findViewById(R.id.selectImage)).setImageBitmap(image);
+        if (image != null) ((ImageView) findViewById(R.id.selectImage)).setImageDrawable(image);
         fragmentsOnWidth = (TextView) findViewById(R.id.fragmentsOnWidth);
         fragmentsOnHeight = (TextView) findViewById(R.id.fragmentsOnHeight);
         seekBarOnWidth = (SeekBar) findViewById(R.id.seekBarOnWidth);
@@ -61,14 +62,14 @@ public class SelectParamsPuzzleActivity extends Activity {
         );
     }
 
-    public static void setImage(Bitmap image) {
+    public static void setImage(Drawable image) {
         SelectParamsPuzzleActivity.image = image;
     }
 
     public void openGameActivity(View view) {
         GameActivity.setCountFragmentOnHeight(Integer.parseInt(fragmentsOnHeight.getText().toString()));
         GameActivity.setCountFragmentOnWidth(Integer.parseInt(fragmentsOnWidth.getText().toString()));
-        GameActivity.setImage(image);
+        GameActivity.setImage(((BitmapDrawable) image).getBitmap());
         Intent intent = new Intent(SelectParamsPuzzleActivity.this, GameActivity.class);
         startActivity(intent);
     }

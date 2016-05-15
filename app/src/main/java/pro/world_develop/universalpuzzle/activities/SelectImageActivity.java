@@ -1,4 +1,4 @@
-package pro.world_develop.universalpuzzle;
+package pro.world_develop.universalpuzzle.activities;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -14,6 +14,8 @@ import android.widget.LinearLayout;
 
 import java.io.IOException;
 import java.io.InputStream;
+
+import pro.world_develop.universalpuzzle.R;
 
 
 public class SelectImageActivity extends Activity {
@@ -38,12 +40,13 @@ public class SelectImageActivity extends Activity {
                 Bitmap bitmap = BitmapFactory.decodeStream(is);
                 Drawable d = Drawable.createFromStream(is, null);
                 final ImageView imageView = new ImageView(list.getContext());
-                imageView.setImageBitmap(bitmap);
+                imageView.setPadding(0, 20, 0, 20);
+                imageView.setImageDrawable(d);
                 imageView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         ImageView image = (ImageView) view;
-                        SelectParamsPuzzleActivity.setImage(((BitmapDrawable) image.getDrawable()).getBitmap());
+                        SelectParamsPuzzleActivity.setImage(image.getDrawable());
                         Intent intent = new Intent(SelectImageActivity.this, SelectParamsPuzzleActivity.class);
                         startActivity(intent);
                     }
