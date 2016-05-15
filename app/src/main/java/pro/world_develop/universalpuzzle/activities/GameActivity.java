@@ -59,6 +59,7 @@ public class GameActivity extends Activity {
 
     private void showPuzzles(Field field) {
         for (Layer layer : field.getLayers()) {
+            layer.setLayoutParams(workLayout.getLayoutParams());
             if (!layer.isCanMove()) {
                 layer.setX(workLayout.getX());
                 layer.setY(workLayout.getY());
@@ -109,10 +110,6 @@ public class GameActivity extends Activity {
         Layer layer = new Layer(getContext(), puzzle, workLayout);
         layer.setLayoutParams(workLayout.getLayoutParams());
         layer.addView(puzzle);
-        //layer.setX(rand.nextInt(display.widthPixels - puzzleWidth) - puzzle.getRealX());
-        //layer.setY(rand.nextInt(display.heightPixels - (50 + frameHeight + puzzleHeight)) + 50 + frameHeight - puzzle.getRealY());
-
-        //mainLayout.addView(layer);
         return layer;
     }
 
