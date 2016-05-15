@@ -60,7 +60,7 @@ public class Layer extends FrameLayout {
 
         FrameLayout parent = (FrameLayout) this.getParent();
         parent.removeView(this);
-        parent.addView(this, 1);
+        parent.addView(this, 2);
         GameActivity.updateGameProcess();
     }
 }
