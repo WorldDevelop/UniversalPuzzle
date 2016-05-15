@@ -7,6 +7,7 @@ import java.util.List;
  */
 public class Field {
     List<Layer> layers;
+    int puzzleCount;
 
     public Field(List<Layer> layers) {
         this.layers = layers;
@@ -16,6 +17,7 @@ public class Field {
                 puzzle.setParentLayer(layer);
             }
         }
+        puzzleCount = layers.size();
     }
 
     public boolean isEnd() {
@@ -54,5 +56,15 @@ public class Field {
             toLayer.addView(p);
             toLayer.getPuzzles().add(p);
         }
+    }
+
+    public double getCountFixPuzzles() {
+        int count = 0;
+        for (Layer layer : layers) {
+            if (layer.isCanMove()) continue;
+
+            count += layer.getPuzzles().size();
+        }
+        return ((double) count) / puzzleCount;
     }
 }

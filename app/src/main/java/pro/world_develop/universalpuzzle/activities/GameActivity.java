@@ -10,6 +10,9 @@ import android.support.annotation.NonNull;
 import android.util.DisplayMetrics;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,9 +34,11 @@ public class GameActivity extends Activity {
     private static Random rand = new Random();
     private static Field field;
     private static DisplayMetrics display = new DisplayMetrics();
+    private static GameActivity currentGame;
 
     private FrameLayout mainLayout;
     private FrameLayout workLayout;
+    private TextView gameProcess;
     private int puzzleWidth;
     private int puzzleHeight;
     private int frameWidth;
@@ -46,7 +51,9 @@ public class GameActivity extends Activity {
 
         mainLayout = (FrameLayout) findViewById(R.id.mainLayout);
         workLayout = (FrameLayout) findViewById(R.id.workLayout);
+        gameProcess = (TextView) findViewById(R.id.gameProcess);
         context = GameActivity.this;
+        currentGame = this;
 
         //Bitmap image = getImage();
         Bitmap[][] fragments = imageDecomposing.parse(image, countFragmentOnHeight, countFragmentOnWidth);
@@ -149,5 +156,11 @@ public class GameActivity extends Activity {
 
     public static Context getContext() {
         return context;
+    }
+
+    public static void updateGameProcess() {
+        int process = (int) (field.getCountFixPuzzles() * 100);
+        currentGame.gameProcess.setText(String.valueOf(process) + " %");
+
     }
 }
