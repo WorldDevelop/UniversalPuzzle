@@ -52,5 +52,7 @@ public class Layer extends FrameLayout {
                 MediaPlayer.create(GameActivity.getContext(), R.raw.click2).start();
             }
         }.start();
+
+        GameActivity.updateGameProcess();
     }
 }
