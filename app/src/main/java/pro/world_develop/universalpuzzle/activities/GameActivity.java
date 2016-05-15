@@ -136,14 +136,18 @@ public class GameActivity extends Activity {
 
     public static void setCountFragmentOnHeight(int countFragmentOnHeight) {
         GameActivity.countFragmentOnHeight = countFragmentOnHeight;
+        field = null;
     }
 
     public static void setCountFragmentOnWidth(int countFragmentOnWidth) {
         GameActivity.countFragmentOnWidth = countFragmentOnWidth;
+        field = null;
     }
 
     public static void setImage(Bitmap image) {
         GameActivity.image = image;
+        field = null;
+
     }
 
     public static Context getContext() {
