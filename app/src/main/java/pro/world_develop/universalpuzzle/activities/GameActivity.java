@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.util.DisplayMetrics;
@@ -23,6 +24,7 @@ import pro.world_develop.universalpuzzle.R;
 public class GameActivity extends Activity {
     private static int countFragmentOnHeight = 1;
     private static int countFragmentOnWidth = 2;
+    private static Bitmap image;
 
     private static ImageDecomposing imageDecomposing = ImageDecomposing.INSTANCE;
     private static Context context;
@@ -46,7 +48,7 @@ public class GameActivity extends Activity {
         workLayout = (FrameLayout) findViewById(R.id.workLayout);
         context = GameActivity.this;
 
-        Bitmap image = getImage();
+        //Bitmap image = getImage();
         Bitmap[][] fragments = imageDecomposing.parse(image, countFragmentOnHeight, countFragmentOnWidth);
         initParams(image);
         addFrame();
@@ -138,6 +140,10 @@ public class GameActivity extends Activity {
 
     public static void setCountFragmentOnWidth(int countFragmentOnWidth) {
         GameActivity.countFragmentOnWidth = countFragmentOnWidth;
+    }
+
+    public static void setImage(Bitmap image) {
+        GameActivity.image = image;
     }
 
     public static Context getContext() {
