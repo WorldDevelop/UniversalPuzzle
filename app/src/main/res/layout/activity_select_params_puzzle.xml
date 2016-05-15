@@ -12,16 +12,9 @@
         android:scaleType="centerCrop"
         android:alpha="0.2"/>
 
-    <ImageView android:id="@+id/selectImage"
-        android:layout_width="wrap_content"
-        android:layout_height="280dp"
-        android:src="@drawable/test_image2"
-        android:layout_centerHorizontal="true"/>
-
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/selectImage" >
+        android:layout_height="wrap_content" >
 
         <LinearLayout
             android:orientation="vertical"
@@ -32,6 +25,12 @@
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
             android:scrollIndicators="none">
+
+            <ImageView android:id="@+id/selectImage"
+                android:layout_width="wrap_content"
+                android:layout_height="280dp"
+                android:src="@drawable/test_image2"
+                android:layout_gravity="center_horizontal" />
 
             <SeekBar
                 android:layout_width="match_parent"
