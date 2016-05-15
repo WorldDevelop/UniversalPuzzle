@@ -4,6 +4,7 @@ import android.content.Context;
 import android.media.MediaPlayer;
 import android.text.Layout;
 import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.widget.FrameLayout;
 
 import java.util.ArrayList;
@@ -57,6 +58,9 @@ public class Layer extends FrameLayout {
             }
         }.start();
 
+        FrameLayout parent = (FrameLayout) this.getParent();
+        parent.removeView(this);
+        parent.addView(this, 1);
         GameActivity.updateGameProcess();
     }
 }
