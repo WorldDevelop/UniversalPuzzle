@@ -8,6 +8,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import pro.world_develop.universalpuzzle.R;
+import pro.world_develop.universalpuzzle.SelectImageActivity;
 
 public class MainActivity extends Activity {
     TextView fragmentsOnHeight;
@@ -57,7 +58,7 @@ public class MainActivity extends Activity {
     public void openGameActivity(View view) {
         GameActivity.setCountFragmentOnHeight(Integer.parseInt(fragmentsOnHeight.getText().toString()));
         GameActivity.setCountFragmentOnWidth(Integer.parseInt(fragmentsOnWidth.getText().toString()));
-        Intent intent = new Intent(MainActivity.this, GameActivity.class);
+        Intent intent = new Intent(MainActivity.this, SelectImageActivity.class);
         startActivity(intent);
     }
 }
