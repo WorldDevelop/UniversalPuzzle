@@ -50,7 +50,7 @@ public class GameActivity extends Activity {
         Bitmap[][] fragments = imageDecomposing.parse(image, countFragmentOnHeight, countFragmentOnWidth);
         initParams(image);
         addFrame();
-        if (field == null)
+        if (field == null || field.getLayers().size() == 1)
             field = createField(fragments);
         showPuzzles(field);
     }
@@ -64,8 +64,8 @@ public class GameActivity extends Activity {
                 layer.setX(rand.nextInt(display.widthPixels - puzzleWidth) - layer.getPuzzles().get(0).getRealX());
                 layer.setY(rand.nextInt(display.heightPixels - (50 + frameHeight + puzzleHeight)) + 50 + frameHeight - layer.getPuzzles().get(0).getRealY());
             } else {
-                layer.setX(frameWidth + rand.nextInt(display.widthPixels-frameWidth - layer.getPuzzles().get(0).getRealX()));
-                layer.setY(rand.nextInt(display.heightPixels - layer.getPuzzles().get(0).getRealX()));
+                layer.setX(frameWidth + rand.nextInt(display.widthPixels - frameWidth - layer.getPuzzles().get(0).getRealX()) - puzzleWidth);
+                layer.setY(rand.nextInt(display.heightPixels - layer.getPuzzles().get(0).getRealX() - puzzleHeight));
             }
             if (layer.getParent() != null)
                 ((FrameLayout) layer.getParent()).removeView(layer);
