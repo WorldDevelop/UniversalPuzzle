@@ -1,18 +1,20 @@
 package pro.world_develop.universalpuzzle;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.res.AssetManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.List;
+
 
 public class SelectImageActivity extends Activity {
 
@@ -33,10 +35,19 @@ public class SelectImageActivity extends Activity {
         for (String filename : filenameList) {
             try {
                 InputStream is = mgr.open("puzzle_images/" + filename);
+                Bitmap bitmap = BitmapFactory.decodeStream(is);
                 Drawable d = Drawable.createFromStream(is, null);
                 final ImageView imageView = new ImageView(list.getContext());
-                imageView.setImageDrawable(d);
-                imageView.setPadding(0, 20, 0, 20);
+                imageView.setImageBitmap(bitmap);
+                imageView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        ImageView image = (ImageView) view;
+                        SelectParamsPuzzleActivity.setImage(((BitmapDrawable) image.getDrawable()).getBitmap());
+                        Intent intent = new Intent(SelectImageActivity.this, SelectParamsPuzzleActivity.class);
+                        startActivity(intent);
+                    }
+                });
                 list.addView(imageView);
             } catch (IOException e) {
                 e.printStackTrace();
