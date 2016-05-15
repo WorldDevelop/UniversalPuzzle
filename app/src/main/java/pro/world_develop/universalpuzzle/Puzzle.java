@@ -21,8 +21,10 @@ public class Puzzle extends ImageView {
     private int realY;
     private Field parentField;
     private Layer parentLayer;
+    private int indI;
+    private int indJ;
 
-    public Puzzle(Context context, Bitmap image) {
+    public Puzzle(Context context, Bitmap image, int indI, int indJ) {
         super(context);
         this.setImageBitmap(image);
         this.setOnTouchListener(new OnTouchListener() {
@@ -80,6 +82,8 @@ public class Puzzle extends ImageView {
             }
         });
         this.setScaleType(ScaleType.FIT_XY);
+        this.indI = indI;
+        this.indJ = indJ;
     }
 
     public void setRealLocation(int x, int y) {
@@ -93,6 +97,14 @@ public class Puzzle extends ImageView {
 
     public int getRealY() {
         return realY;
+    }
+
+    public int getIndI() {
+        return indI;
+    }
+
+    public int getIndJ() {
+        return indJ;
     }
 
     public Field getParentField() {

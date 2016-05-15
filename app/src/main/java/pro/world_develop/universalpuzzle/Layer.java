@@ -35,6 +35,10 @@ public class Layer extends FrameLayout {
         return puzzles;
     }
 
+    public void setFrame(FrameLayout frame) {
+        this.frame = frame;
+    }
+
     public boolean isCanMove() {
         return canMove;
     }
