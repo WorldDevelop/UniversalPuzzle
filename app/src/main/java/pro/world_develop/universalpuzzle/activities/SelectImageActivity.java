@@ -37,7 +37,6 @@ public class SelectImageActivity extends Activity {
         for (String filename : filenameList) {
             try {
                 InputStream is = mgr.open("puzzle_images/" + filename);
-                Bitmap bitmap = BitmapFactory.decodeStream(is);
                 Drawable d = Drawable.createFromStream(is, null);
                 final ImageView imageView = new ImageView(list.getContext());
                 imageView.setPadding(0, 20, 0, 20);
