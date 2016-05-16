@@ -54,7 +54,7 @@ public class Layer extends FrameLayout {
         canMove = false;
         new Thread() {
             public void run() {
-                MediaPlayer.create(GameActivity.getContext(), R.raw.click2).start();
+                MediaPlayer.create(GameActivity.getContext(), R.raw.click).start();
             }
         }.start();
 

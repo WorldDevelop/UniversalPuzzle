@@ -1,6 +1,10 @@
 package pro.world_develop.universalpuzzle;
 
+import android.media.MediaPlayer;
+
 import java.util.List;
+
+import pro.world_develop.universalpuzzle.activities.GameActivity;
 
 /**
  * Created by User on 02.05.2016.
@@ -29,6 +33,7 @@ public class Field {
     }
 
     public void tryMergeLayout(Layer currLayer) {
+        boolean needSound = false;
         int i = 0;
         while (i < layers.size()) {
             Layer layer = layers.get(i);
@@ -39,10 +44,19 @@ public class Field {
                     Math.abs(currLayer.getY() - layer.getY()) < 15) {
                 mergeLayers(currLayer, layer);
                 layers.remove(layer);
+                needSound = true;
             } else {
                 i++;
             }
         }
+
+        if (needSound)
+            new Thread() {
+                @Override
+                public void run() {
+                    MediaPlayer.create(GameActivity.getContext(), R.raw.merge).start();
+                }
+            }.start();
     }
 
     public List<Layer> getLayers() {
