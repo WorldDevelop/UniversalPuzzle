@@ -10,6 +10,8 @@ import pro.world_develop.universalpuzzle.activities.GameActivity;
  * Created by User on 02.05.2016.
  */
 public class Field {
+    private static final int DIST_FOR_MERGE = 25;
+
     List<Layer> layers;
     int puzzleCount;
 
@@ -38,10 +40,7 @@ public class Field {
         while (i < layers.size()) {
             Layer layer = layers.get(i);
 
-            //todo сделать проверку, что слои имеют смежные пазлы, иначе можно вообще всякую хрень соединять
-            if (!currLayer.equals(layer) &&
-                    Math.abs(currLayer.getX() - layer.getX()) < 15 &&
-                    Math.abs(currLayer.getY() - layer.getY()) < 15) {
+            if (isNeedToMerge(currLayer, layer)) {
                 mergeLayers(currLayer, layer);
                 layers.remove(layer);
                 needSound = true;
@@ -57,6 +56,22 @@ public class Field {
                     MediaPlayer.create(GameActivity.getContext(), R.raw.merge).start();
                 }
             }.start();
+    }
+
+    private boolean isNeedToMerge(Layer layer1, Layer layer2) {
+        if (layer1.equals(layer2) ||
+                Math.abs(layer1.getX() - layer2.getX()) > DIST_FOR_MERGE ||
+                Math.abs(layer1.getY() - layer2.getY()) > DIST_FOR_MERGE)
+            return false;
+
+        for (Puzzle p1 : layer1.getPuzzles()) {
+            for (Puzzle p2 : layer2.getPuzzles()) {
+                if (p1.getRealX() - p2.getRealX() == 0 && Math.abs(p1.getRealY() - p2.getRealY()) == p1.getHeight() ||
+                        p1.getRealY() - p2.getRealY() == 0 && Math.abs(p1.getRealX() - p2.getRealX()) == p1.getWidth())
+                    return true;
+            }
+        }
+        return false;
     }
 
     public List<Layer> getLayers() {
