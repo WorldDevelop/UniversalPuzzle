@@ -11,6 +11,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -24,23 +26,26 @@ public class SelectImageActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_image);
-        LinearLayout imageList = (LinearLayout) findViewById(R.id.imageList);
+        TableLayout imageList = (TableLayout) findViewById(R.id.imageList);
 
         addImageSet(imageList);
     }
 
-    private void addImageSet(LinearLayout list) {
+    private void addImageSet(TableLayout list) {
         final AssetManager mgr = getAssets();
         String[] filenameList = getFilenameList(mgr, "puzzle_images");
         if (filenameList == null) return;
 
+        TableRow tableRow = new TableRow(list.getContext());
+        list.addView(tableRow);
         for (String filename : filenameList) {
             try {
                 InputStream is = mgr.open("puzzle_images/" + filename);
                 Drawable d = Drawable.createFromStream(is, null);
                 final ImageView imageView = new ImageView(list.getContext());
-                imageView.setPadding(0, 20, 0, 20);
+                imageView.setPadding(10, 10, 10, 10);
                 imageView.setImageDrawable(d);
+                imageView.setAdjustViewBounds(true);
                 imageView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -50,7 +55,13 @@ public class SelectImageActivity extends Activity {
                         startActivity(intent);
                     }
                 });
-                list.addView(imageView);
+
+                if (tableRow.getChildCount() == 3) {
+                    tableRow = new TableRow(list.getContext());
+                    list.addView(tableRow);
+                }
+
+                tableRow.addView(imageView);
             } catch (IOException e) {
                 e.printStackTrace();
             }

@@ -17,12 +17,16 @@
         android:layout_height="wrap_content"
         android:id="@+id/scrollView" >
 
-        <LinearLayout android:id="@+id/imageList"
+        <TableLayout android:id="@+id/imageList"
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:scrollIndicators="none">
-        </LinearLayout>
+            android:stretchColumns="*"
+            android:shrinkColumns="*"
+            android:scrollIndicators="none"
+            android:padding="10dp">
+
+        </TableLayout>
     </ScrollView>
 
 </RelativeLayout>
