@@ -52,7 +52,7 @@ public class GameActivity extends Activity {
         initParams(image);
         addFrame();
 
-        if (field == null || field.getLayers().size() == 1) {
+        if (field == null) {
             Bitmap[][] fragments = imageDecomposing.parse(image, countFragmentOnHeight, countFragmentOnWidth);
             field = createField(fragments);
         }
