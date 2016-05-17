@@ -106,6 +106,7 @@ public class GameActivity extends Activity {
                 layer.setY(rand.nextInt(display.heightPixels - layer.getPuzzles().get(0).getRealX() - puzzleHeight));
             }
         }
+        updateGameProcess();
     }
 
     private Field createField(Bitmap[][] fragments) {

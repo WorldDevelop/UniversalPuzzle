@@ -10,7 +10,8 @@ import pro.world_develop.universalpuzzle.activities.GameActivity;
  * Created by User on 02.05.2016.
  */
 public class Field {
-    private static final int DIST_FOR_MERGE = 25;
+    public static final int DIST_FOR_MERGE = 25;
+    public static final int DIST_FOR_FIX = 20;
 
     List<Layer> layers;
     int puzzleCount;
@@ -56,6 +57,7 @@ public class Field {
                     MediaPlayer.create(GameActivity.getContext(), R.raw.merge).start();
                 }
             }.start();
+        GameActivity.updateGameProcess();
     }
 
     private boolean isNeedToMerge(Layer layer1, Layer layer2) {

@@ -51,7 +51,8 @@ public class Layer extends FrameLayout {
     }
 
     public boolean isOnPlace() {
-        return Math.abs(getX() - frame.getX()) < 15 && Math.abs(getY() - frame.getY()) < 15;
+        return Math.abs(getX() - frame.getX()) < Field.DIST_FOR_FIX &&
+                Math.abs(getY() - frame.getY()) < Field.DIST_FOR_FIX;
     }
 
     public void fix(MODE mode) {
@@ -69,6 +70,6 @@ public class Layer extends FrameLayout {
         FrameLayout parent = (FrameLayout) this.getParent();
         parent.removeView(this);
         parent.addView(this, 2);
-        GameActivity.updateGameProcess();
+        //GameActivity.updateGameProcess();
     }
 }
