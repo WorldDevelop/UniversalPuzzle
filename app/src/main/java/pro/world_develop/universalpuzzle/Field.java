@@ -30,7 +30,7 @@ public class Field {
         if (layers.size() != 1) return false;
 
         Layer layer = layers.get(0);
-        layer.fix();
+        layer.fix(Layer.MODE.WITH_SOUND);
         return true;
     }
 
@@ -85,6 +85,8 @@ public class Field {
             toLayer.addView(p);
             toLayer.getPuzzles().add(p);
         }
+
+        if (!fromLayer.isCanMove()) toLayer.fix(Layer.MODE.WITHOUT_SOUND);
     }
 
     public double getCountFixPuzzles() {

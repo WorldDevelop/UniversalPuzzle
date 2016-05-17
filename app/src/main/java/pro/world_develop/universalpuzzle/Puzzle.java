@@ -63,7 +63,7 @@ public class Puzzle extends ImageView {
                         break;
                     case MotionEvent.ACTION_UP:
                         if (layer.isOnPlace()) {
-                            layer.fix();
+                            layer.fix(Layer.MODE.WITH_SOUND);
                         }
                         puzzle.getParentField().tryMergeLayout(layer);
 

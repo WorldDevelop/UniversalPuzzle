@@ -16,6 +16,12 @@ import pro.world_develop.universalpuzzle.activities.GameActivity;
  * Created by User on 12.05.2016.
  */
 public class Layer extends FrameLayout {
+
+    public static enum MODE {
+        WITH_SOUND,
+        WITHOUT_SOUND;
+    }
+
     private List<Puzzle> puzzles;
     private boolean canMove;
     private FrameLayout frame;
@@ -48,15 +54,17 @@ public class Layer extends FrameLayout {
         return Math.abs(getX() - frame.getX()) < 15 && Math.abs(getY() - frame.getY()) < 15;
     }
 
-    public void fix() {
+    public void fix(MODE mode) {
         setX(frame.getX());
         setY(frame.getY());
         canMove = false;
-        new Thread() {
-            public void run() {
-                MediaPlayer.create(GameActivity.getContext(), R.raw.click).start();
-            }
-        }.start();
+        if (mode.equals(MODE.WITH_SOUND)) {
+            new Thread() {
+                public void run() {
+                    MediaPlayer.create(GameActivity.getContext(), R.raw.click).start();
+                }
+            }.start();
+        }
 
         FrameLayout parent = (FrameLayout) this.getParent();
         parent.removeView(this);
