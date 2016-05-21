@@ -49,7 +49,7 @@ public class GameActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
-        initParams(image);
+        initParams();
         addFrame();
 
         if (field == null) {
@@ -59,7 +59,7 @@ public class GameActivity extends Activity {
         showPuzzles(field);
     }
 
-    private void initParams(Bitmap image) {
+    private void initParams() {
         mainLayout = (FrameLayout) findViewById(R.id.mainLayout);
         workLayout = (FrameLayout) findViewById(R.id.workLayout);
         gameProcess = (TextView) findViewById(R.id.gameProcess);
@@ -83,6 +83,7 @@ public class GameActivity extends Activity {
             if (layer.getParent() != null)
                 ((FrameLayout) layer.getParent()).removeView(layer);
             mainLayout.addView(layer);
+
             layer.setFrame(workLayout);
             layer.setLayoutParams(workLayout.getLayoutParams());
             for (Puzzle p : layer.getPuzzles()) {
@@ -99,6 +100,9 @@ public class GameActivity extends Activity {
                 params.topMargin = 100; //hardcore
                 layer.setLayoutParams(params);
             } else if (display.heightPixels > display.widthPixels) {
+                //layer.setY(rand.nextInt(display.heightPixels - 2 * frameHeight - 100) +
+                //    frameHeight + 100);
+                //layer.setX(30);
                 layer.setX(rand.nextInt(display.widthPixels - puzzleWidth) - layer.getPuzzles().get(0).getRealX());
                 layer.setY(rand.nextInt(display.heightPixels - (50 + frameHeight + puzzleHeight)) + 50 + frameHeight - layer.getPuzzles().get(0).getRealY());
             } else {
@@ -124,7 +128,6 @@ public class GameActivity extends Activity {
         Puzzle puzzle = createPuzzle(image, i, j);
 
         Layer layer = new Layer(getContext(), puzzle, workLayout);
-        //layer.setLayoutParams(workLayout.getLayoutParams());
         layer.addView(puzzle);
         return layer;
     }
