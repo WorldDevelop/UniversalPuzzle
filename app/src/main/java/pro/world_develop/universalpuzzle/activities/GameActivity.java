@@ -49,45 +49,23 @@ public class GameActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
+        initParams();
+        addFrame();
+
+        if (field == null) {
+            Bitmap[][] fragments = imageDecomposing.parse(image, countFragmentOnHeight, countFragmentOnWidth);
+            field = createField(fragments);
+        }
+        showPuzzles(field);
+    }
+
+    private void initParams() {
         mainLayout = (FrameLayout) findViewById(R.id.mainLayout);
         workLayout = (FrameLayout) findViewById(R.id.workLayout);
         gameProcess = (TextView) findViewById(R.id.gameProcess);
         context = GameActivity.this;
         currentGame = this;
 
-        //Bitmap image = getImage();
-        Bitmap[][] fragments = imageDecomposing.parse(image, countFragmentOnHeight, countFragmentOnWidth);
-        initParams(image);
-        addFrame();
-        if (field == null || field.getLayers().size() == 1)
-            field = createField(fragments);
-        showPuzzles(field);
-    }
-
-    private void showPuzzles(Field field) {
-        for (Layer layer : field.getLayers()) {
-            layer.setLayoutParams(workLayout.getLayoutParams());
-            if (!layer.isCanMove()) {
-                layer.setX(workLayout.getX());
-                layer.setY(workLayout.getY());
-            } else if (display.heightPixels > display.widthPixels) {
-                layer.setX(rand.nextInt(display.widthPixels - puzzleWidth) - layer.getPuzzles().get(0).getRealX());
-                layer.setY(rand.nextInt(display.heightPixels - (50 + frameHeight + puzzleHeight)) + 50 + frameHeight - layer.getPuzzles().get(0).getRealY());
-            } else {
-                layer.setX(frameWidth + rand.nextInt(display.widthPixels - frameWidth - layer.getPuzzles().get(0).getRealX()) - puzzleWidth);
-                layer.setY(rand.nextInt(display.heightPixels - layer.getPuzzles().get(0).getRealX() - puzzleHeight));
-            }
-            if (layer.getParent() != null)
-                ((FrameLayout) layer.getParent()).removeView(layer);
-            mainLayout.addView(layer);
-        }
-    }
-
-    private Bitmap getImage() {
-        return BitmapFactory.decodeResource(getBaseContext().getResources(), R.drawable.test_image2);
-    }
-
-    private void initParams(Bitmap image) {
         getWindowManager().getDefaultDisplay().getMetrics(display);
         if (display.heightPixels > display.widthPixels) {
             frameWidth = display.widthPixels - 60;
@@ -98,6 +76,41 @@ public class GameActivity extends Activity {
         }
         puzzleWidth = frameWidth / countFragmentOnWidth;
         puzzleHeight = frameHeight / countFragmentOnHeight;
+    }
+
+    private void showPuzzles(Field field) {
+        for (Layer layer : field.getLayers()) {
+            if (layer.getParent() != null)
+                ((FrameLayout) layer.getParent()).removeView(layer);
+            mainLayout.addView(layer);
+
+            layer.setFrame(workLayout);
+            layer.setLayoutParams(workLayout.getLayoutParams());
+            for (Puzzle p : layer.getPuzzles()) {
+                p.setRealLocation(p.getIndI() * puzzleWidth, p.getIndJ() * puzzleHeight);
+                FrameLayout.LayoutParams puzzleParams = new FrameLayout.LayoutParams(puzzleWidth, puzzleHeight);
+                puzzleParams.leftMargin = p.getRealX();
+                puzzleParams.topMargin = p.getRealY();
+                p.setLayoutParams(puzzleParams);
+            }
+            if (!layer.isCanMove()) {
+                ViewGroup.LayoutParams oldParams = workLayout.getLayoutParams();
+                FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(oldParams.width, oldParams.height);
+                params.leftMargin = 30; //hardcore
+                params.topMargin = 100; //hardcore
+                layer.setLayoutParams(params);
+            } else if (display.heightPixels > display.widthPixels) {
+                //layer.setY(rand.nextInt(display.heightPixels - 2 * frameHeight - 100) +
+                //    frameHeight + 100);
+                //layer.setX(30);
+                layer.setX(rand.nextInt(display.widthPixels - puzzleWidth) - layer.getPuzzles().get(0).getRealX());
+                layer.setY(rand.nextInt(display.heightPixels - (50 + frameHeight + puzzleHeight)) + 50 + frameHeight - layer.getPuzzles().get(0).getRealY());
+            } else {
+                layer.setX(frameWidth + rand.nextInt(display.widthPixels - frameWidth - layer.getPuzzles().get(0).getRealX()) - puzzleWidth);
+                layer.setY(rand.nextInt(display.heightPixels - layer.getPuzzles().get(0).getRealX() - puzzleHeight));
+            }
+        }
+        updateGameProcess();
     }
 
     private Field createField(Bitmap[][] fragments) {
@@ -115,14 +128,13 @@ public class GameActivity extends Activity {
         Puzzle puzzle = createPuzzle(image, i, j);
 
         Layer layer = new Layer(getContext(), puzzle, workLayout);
-        layer.setLayoutParams(workLayout.getLayoutParams());
         layer.addView(puzzle);
         return layer;
     }
 
     @NonNull
     private Puzzle createPuzzle(Bitmap image, int i, int j) {
-        Puzzle puzzle = new Puzzle(this, image);
+        Puzzle puzzle = new Puzzle(this, image, i, j);
         puzzle.setRealLocation(i * puzzleWidth, j * puzzleHeight);
         FrameLayout.LayoutParams puzzleParams = new FrameLayout.LayoutParams(puzzleWidth, puzzleHeight);
         puzzleParams.leftMargin = puzzle.getRealX();
