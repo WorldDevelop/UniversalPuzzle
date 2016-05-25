@@ -31,6 +31,7 @@ public class Field {
         if (layers.size() != 1) return false;
 
         Layer layer = layers.get(0);
+        GameActivity.updateGameProcess();
         layer.fix(Layer.MODE.WITH_SOUND);
         return true;
     }
@@ -92,6 +93,8 @@ public class Field {
     }
 
     public double getCountFixPuzzles() {
+        if (layers.size() == 1) return 1;
+
         int count = 0;
         for (Layer layer : layers) {
             if (layer.isCanMove()) continue;
