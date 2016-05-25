@@ -1,11 +1,6 @@
 package pro.world_develop.universalpuzzle;
 
 import android.graphics.Bitmap;
-import android.graphics.Picture;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.PictureDrawable;
-import android.media.Image;
-import android.widget.ImageView;
 
 /**
  * Created by User on 24.04.2016.

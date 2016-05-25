@@ -3,10 +3,13 @@ package pro.world_develop.universalpuzzle;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.media.MediaPlayer;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+
+import java.util.List;
 
 import pro.world_develop.universalpuzzle.activities.GameActivity;
 
@@ -14,14 +17,14 @@ import pro.world_develop.universalpuzzle.activities.GameActivity;
  * Created by ildar on 25.04.2016.
  */
 public class Puzzle extends ImageView {
-    private static int puzzleCount;
-    private static int countPuzzleOnPlace;
-
-    private boolean canMove;
     private int realX;
     private int realY;
+    private Field parentField;
+    private Layer parentLayer;
+    private int indI;
+    private int indJ;
 
-    public Puzzle(Context context, Bitmap image) {
+    public Puzzle(Context context, Bitmap image, int indI, int indJ) {
         super(context);
         this.setImageBitmap(image);
         this.setOnTouchListener(new OnTouchListener() {
@@ -35,41 +38,40 @@ public class Puzzle extends ImageView {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 Puzzle puzzle = (Puzzle) view;
-                if (!puzzle.canMove()) return true;
+                Layer layer = puzzle.getParentLayer();
+
+                if (!layer.isCanMove()) return true;
 
                 final int evX = (int) motionEvent.getRawX();
                 final int evY = (int) motionEvent.getRawY();
                 switch (motionEvent.getAction() ){
                     case MotionEvent.ACTION_DOWN:
-                        FrameLayout frameLayout = (FrameLayout) puzzle.getParent();
-                        frameLayout.removeView(puzzle);
-                        frameLayout.addView(puzzle);
+                        FrameLayout frameLayout = (FrameLayout) layer.getParent();
+                        frameLayout.removeView(layer);
+                        frameLayout.addView(layer);
 
-                        X = (int) puzzle.getX();
-                        Y = (int) puzzle.getY();
+                        X = (int) layer.getX();
+                        Y = (int) layer.getY();
                         dragX = evX - X;
                         dragY = evY - Y;
                         break;
                     case MotionEvent.ACTION_MOVE:
                         X = evX - dragX;
                         Y = evY - dragY;
-                        puzzle.setX(X);
-                        puzzle.setY(Y);
+                        layer.setX(X);
+                        layer.setY(Y);
                         break;
                     case MotionEvent.ACTION_UP:
-                        if (puzzle.isOnPlace()) {
-                            fixPuzzle(puzzle);
-                            if (Puzzle.isEnd()) showMsg();
+                        if (layer.isOnPlace()) {
+                            layer.fix(Layer.MODE.WITH_SOUND);
+                        }
+                        puzzle.getParentField().tryMergeLayout(layer);
+
+                        if (puzzle.getParentField().isEnd()) {
+                            showMsg();
                         }
                 }
                 return true;
-            }
-
-            private void fixPuzzle(Puzzle puzzle) {
-                puzzle.setX(puzzle.getRealX());
-                puzzle.setY(puzzle.getRealY());
-                puzzle.canMove(false);
-                Puzzle.setCountPuzzleOnPlace(Puzzle.getCountPuzzleOnPlace() + 1);
             }
 
             private void showMsg() {
@@ -80,7 +82,8 @@ public class Puzzle extends ImageView {
             }
         });
         this.setScaleType(ScaleType.FIT_XY);
-        canMove = true;
+        this.indI = indI;
+        this.indJ = indJ;
     }
 
     public void setRealLocation(int x, int y) {
@@ -96,31 +99,28 @@ public class Puzzle extends ImageView {
         return realY;
     }
 
-    public boolean canMove() {
-        return canMove;
+    public int getIndI() {
+        return indI;
     }
 
-    public void canMove(boolean canMove) {
-        this.canMove = canMove;
+    public int getIndJ() {
+        return indJ;
     }
 
-    public static void setPuzzleCount(int puzzleCount) {
-        Puzzle.puzzleCount = puzzleCount;
+    public Field getParentField() {
+        return parentField;
     }
 
-    public static int getCountPuzzleOnPlace() {
-        return countPuzzleOnPlace;
+    public void setParentField(Field parentField) {
+        this.parentField = parentField;
     }
 
-    public static void setCountPuzzleOnPlace(int countPuzzleOnPlace) {
-        Puzzle.countPuzzleOnPlace = countPuzzleOnPlace;
+    public Layer getParentLayer() {
+        return parentLayer;
     }
 
-    public boolean isOnPlace() {
-        return Math.abs(getX() - realX) < 10 && Math.abs(getY() - realY) < 10;
+    public void setParentLayer(Layer parentLayer) {
+        this.parentLayer = parentLayer;
     }
 
-    public static boolean isEnd() {
-        return puzzleCount == countPuzzleOnPlace;
-    }
 }
