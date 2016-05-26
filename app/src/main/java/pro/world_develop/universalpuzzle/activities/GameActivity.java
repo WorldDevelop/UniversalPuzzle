@@ -8,9 +8,16 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.util.DisplayMetrics;
+import android.util.FloatMath;
+import android.view.MotionEvent;
+import android.view.ScaleGestureDetector;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
@@ -50,6 +57,7 @@ public class GameActivity extends Activity {
         setContentView(R.layout.activity_game);
 
         initParams();
+        initMainLayout();
         addFrame();
 
         if (field == null) {
@@ -57,6 +65,78 @@ public class GameActivity extends Activity {
             field = createField(fragments);
         }
         showPuzzles(field);
+    }
+
+    private void initMainLayout() {
+        int mainLayoutWidth = 3 * image.getWidth();
+        int mainLayoutHeight = 3 * image.getHeight();
+        ViewGroup.LayoutParams params = mainLayout.getLayoutParams();
+        params.height = mainLayoutHeight;
+        params.width = mainLayoutWidth;
+        mainLayout.setLayoutParams(params);
+        mainLayout.setOnTouchListener(new View.OnTouchListener() {
+            private int dragX = 0;
+            private int dragY = 0;
+            float oldDist;
+            String mode;
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                final int evX = (int) motionEvent.getRawX();
+                final int evY = (int) motionEvent.getRawY();
+
+                switch (motionEvent.getAction() ) {
+                    case MotionEvent.ACTION_POINTER_DOWN:
+                        oldDist = spacing(motionEvent);
+                        mode = "ZOOM";
+                        //resize
+                        break;
+                    case MotionEvent.ACTION_DOWN:
+                        dragX = evX - (int) view.getX();
+                        dragY = evY - (int) view.getY();
+                        mode = "DRAG";
+                        break;
+                    case MotionEvent.ACTION_MOVE:
+                        if (mode.equals("DRAG")) {
+                            view.setX(evX - dragX);
+                            view.setY(evY - dragY);
+                        } else if (mode.equals("ZOOM")) {
+                            float newDist = spacing(motionEvent);
+                            float scale = newDist / oldDist;
+                            Toast.makeText(context, String.valueOf(scale), Toast.LENGTH_LONG).show();
+                            mainLayout.setScaleX(scale);
+                            mainLayout.setScaleY(scale);
+                        }
+                        break;
+                }
+                return true;
+            }
+
+            private float spacing(MotionEvent event) {
+                float x = event.getX(0) - event.getX(1);
+                float y = event.getY(0) - event.getY(1);
+                return (float) Math.sqrt(x*x + y*y);
+            }
+        });
+        //mainLayout.setScaleX((float) 0.2);
+        //mainLayout.setScaleY((float) 0.2);
+        ((SeekBar) findViewById(R.id.seekBarForMainLayout)).setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                float sc = (float) ((i + 10) / 100.0);
+                mainLayout.setScaleX(sc);
+                mainLayout.setScaleY(sc);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
     }
 
     private void initParams() {
@@ -67,6 +147,7 @@ public class GameActivity extends Activity {
         currentGame = this;
 
         getWindowManager().getDefaultDisplay().getMetrics(display);
+        /*
         if (display.heightPixels > display.widthPixels) {
             frameWidth = display.widthPixels - 60;
             frameHeight = image.getHeight() * frameWidth / image.getWidth();
@@ -74,6 +155,9 @@ public class GameActivity extends Activity {
             frameWidth = display.widthPixels / 2 - 60;
             frameHeight = image.getHeight() * frameWidth / image.getWidth();
         }
+        */
+        frameWidth = image.getWidth();
+        frameHeight = image.getHeight();
         puzzleWidth = frameWidth / countFragmentOnWidth;
         puzzleHeight = frameHeight / countFragmentOnHeight;
     }
@@ -100,9 +184,6 @@ public class GameActivity extends Activity {
                 params.topMargin = 100; //hardcore
                 layer.setLayoutParams(params);
             } else if (display.heightPixels > display.widthPixels) {
-                //layer.setY(rand.nextInt(display.heightPixels - 2 * frameHeight - 100) +
-                //    frameHeight + 100);
-                //layer.setX(30);
                 layer.setX(rand.nextInt(display.widthPixels - puzzleWidth) - layer.getPuzzles().get(0).getRealX());
                 layer.setY(rand.nextInt(display.heightPixels - (50 + frameHeight + puzzleHeight)) + 50 + frameHeight - layer.getPuzzles().get(0).getRealY());
             } else {
@@ -148,6 +229,8 @@ public class GameActivity extends Activity {
         params.height = frameHeight;
         params.width = frameWidth;
         workLayout.setLayoutParams(params);
+        workLayout.setX(frameWidth);
+        workLayout.setY(frameHeight);
     }
 
     public static void setCountFragmentOnHeight(int countFragmentOnHeight) {
