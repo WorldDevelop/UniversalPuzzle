@@ -117,8 +117,9 @@ public class GameActivity extends Activity {
                 return (float) Math.sqrt(x*x + y*y);
             }
         });
-        //mainLayout.setScaleX((float) 0.2);
-        //mainLayout.setScaleY((float) 0.2);
+        mainLayout.setScaleX((float) 0.4);
+        mainLayout.setScaleY((float) 0.4);
+        ((SeekBar) findViewById(R.id.seekBarForMainLayout)).setProgress(30);
         ((SeekBar) findViewById(R.id.seekBarForMainLayout)).setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
